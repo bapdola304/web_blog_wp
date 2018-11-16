@@ -21,7 +21,10 @@ get_header(); ?>
 			while ( have_posts() ) :
 				the_post();
 
+				postview_set(get_the_ID());
+
 				get_template_part( 'template-parts/post/content', get_post_format() );
+			
 
 				// If comments are open or we have at least one comment, load up the comment template.
 				if ( comments_open() || get_comments_number() ) :

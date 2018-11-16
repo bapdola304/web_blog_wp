@@ -19,6 +19,10 @@ if ( ! current_user_can( 'edit_theme_options' ) ) {
 		403
 	);
 }
+ add_action( 'widgets_init', 'new_widget' );
+ function new_widget() {
+ register_widget('tdc_widget');
+ }
 
 $widgets_access = get_user_setting( 'widgets_access' );
 if ( isset( $_GET['widgets-access'] ) ) {

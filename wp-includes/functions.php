@@ -23,6 +23,7 @@ require( ABSPATH . WPINC . '/option.php' );
  * @param bool   $translate Whether the return date should be translated. Default true.
  * @return string|int|bool Formatted date string or Unix timestamp. False if $date is empty.
  */
+
 function mysql2date( $format, $date, $translate = true ) {
 	if ( empty( $date ) ) {
 		return false;
@@ -6519,3 +6520,5 @@ function wp_privacy_delete_old_export_files() {
 		}
 	}
 }
+
+

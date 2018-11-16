@@ -58,7 +58,7 @@
 				get_the_title()
 			)
 		);
-
+		echo postview_get(get_the_ID());
 		wp_link_pages(
 			array(
 				'before'      => '<div class="page-links">' . __( 'Pages:', 'twentyseventeen' ),

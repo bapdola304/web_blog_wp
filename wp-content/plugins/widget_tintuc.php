@@ -1,7 +1,52 @@
-<?php 	
+<?php
+/**
+/*
+Plugin Name: Nai Widget
+Plugin URI: http://wordpress.org/plugins/hello-dolly/
+Description: This is not just a plugin, it symbolizes the hope and enthusiasm of an entire generation summed up in two words sung most famously by Louis Armstrong: Hello, Dolly. When activated you will randomly see a lyric from <cite>Hello, Dolly</cite> in the upper right of your admin screen on every page.
+Author: Matt Mullenweg
+Version: 1.7
+Author URI: http://ma.tt/
+*/
 
 
-
+function create_topview_widget() {
+    register_widget( 'TopView_Widget' );
+}
+add_action( 'widgets_init', 'create_topview_widget' );
+ 
+class TopView_Widget extends WP_Widget {
+ 
+    /*
+     * Thiết lập tên widget và description của nó (Appearance -> Widgets)
+     */
+    function TopView_Widget() {
+        $options = array(
+           'classname' => 'topview',
+            'description' => 'Xem bài viết xem nhiều nhất'
+        );
+        $this->WP_Widget('topview', 'Top View', $options);
+    }
+ 
+    /*
+     * Tạo form điền tham số cho widget
+     * ở đây ta có 3 form là title, postnum (số lượng bài) và postdate (tuổi của bài
+     */
+    function form($instance) {
+        $default = array(
+            'title' => 'Bài xem nhiều nhất',
+            'postnum' => 5,
+            'postdate' => 30
+        );
+        $instance = wp_parse_args( (array) $instance, $default );
+        $title = esc_attr( $instance['title'] );
+        $postnum = esc_attr( $instance['postnum'] );
+        $postdate = esc_attr( $instance['postdate'] );
+ 
+        echo  "<label>Tiêu đề:</label> <input class='widefat' type='text' name='".$this->get_field_name('title')."' value='".$title."' />";
+        echo "<label>Số lượng bài viết:</label> <input class='widefat' type='number' name='".$this->get_field_name('postnum')."' value='".$postnum."' />";
+        echo "<label>Độ tuổi của bài viết (ngày)</label> <input class='widefat' type='number' name='".$this->get_field_name('postdate')."' value='".$postdate."' />";
+    }
  
     /*
      * Cập nhật dữ liệu nhập vào form tùy chọn trong database
@@ -49,11 +94,13 @@
  
         if ($postview_query->have_posts() ) :
             echo "<ul>";
+            $i=1;
             while ( $postview_query->have_posts() ) :
                 $postview_query->the_post(); ?>
  
                     <li>
-                        <?php /* Bỏ comment nếu muốn hiện thumbnail
+                        <?php
+                        	echo $i++; /* Bỏ comment nếu muốn hiện thumbnail
                             if ( has_post_thumbnail() )
                                 the_post_thumbnail( 'thumbnail' );
                             else
@@ -69,15 +116,10 @@
             echo $after_widget;
     }
 }
- ?>
- <!-- widget -->
-
- <?php 
- 	function custom_styles() {
+function custom_styles() {
  
         wp_register_style( 'topview-css', plugins_url( 'styles.css', __FILE__ ) , false, false, 'all' );
         wp_enqueue_style( 'topview-css' );
  
 }
 add_action( 'wp_enqueue_scripts', 'custom_styles' );
-  ?>

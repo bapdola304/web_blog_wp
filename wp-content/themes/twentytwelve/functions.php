@@ -42,6 +42,7 @@ if ( ! isset( $content_width ) ) {
  *
  * @since Twenty Twelve 1.0
  */
+
 function twentytwelve_setup() {
 	/*
 	 * Makes Twenty Twelve available for translation.
